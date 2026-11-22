@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { SERVICES, GROUPS, PATCH_TEST, DEPOSIT, EVENING_SURCHARGE, EVENING_FROM, priceSelection } from '@/lib/config';
+import { SERVICES, GROUPS, PATCH_TEST, DEPOSIT, EVENING_SURCHARGE, EVENING_FROM, DURATION_LABEL, priceSelection } from '@/lib/config';
 import { londonNow, addDays, prettyDate, prettyTime, weekday } from '@/lib/time';
 
 const DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -189,7 +189,7 @@ export default function BookingFlow({ initialServices = [], startWithPatch = fal
                       <span className="tick">{on ? '✓' : ''}</span>
                       <span>
                         <span className="name">{s.name}</span><br />
-                        <span className="dur">Approx. {s.duration} mins</span>
+                        <span className="dur">{DURATION_LABEL}</span>
                       </span>
                       <span className="p">£{s.price}</span>
                     </button>
@@ -340,7 +340,7 @@ export default function BookingFlow({ initialServices = [], startWithPatch = fal
                 <div className="row total"><span>Total</span><span>£{total}</span></div>
                 <div className="row deposit"><span>Deposit due today</span><span>£{DEPOSIT}</span></div>
                 <div className="row"><span>Pay on the day</span><span>£{Math.max(total - DEPOSIT, 0)}</span></div>
-                <p className="fine">Approx. {selection.duration} minutes. Deposits are refundable only within 24 hours of payment. 48 hours’ notice needed to cancel or reschedule.</p>
+                <p className="fine">Each treatment takes {DURATION_LABEL}. Deposits are refundable only within 24 hours of payment. 48 hours’ notice needed to cancel or reschedule.</p>
               </>
             )}
           </>

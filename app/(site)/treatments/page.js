@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { SERVICES, GROUPS, PATCH_TEST, DEPOSIT, EVENING_SURCHARGE } from '@/lib/config';
+import { SERVICES, GROUPS, PATCH_TEST, DEPOSIT, EVENING_SURCHARGE, DURATION_LABEL } from '@/lib/config';
 
 export const metadata = { title: 'Treatments & Prices' };
 
@@ -25,7 +25,7 @@ export default function Treatments() {
                   </div>
                   <div className="price">£{s.price}</div>
                   <div className="meta">
-                    <span>Approx. {s.duration} mins</span>
+                    <span>{DURATION_LABEL}</span>
                     <Link href={`/book?t=${s.id}`}>Book →</Link>
                   </div>
                 </div>
