@@ -31,9 +31,15 @@ export default async function Confirmed({ searchParams }) {
           <dl>
             <dt>Appointment</dt><dd>Patch test (approx. 15 mins)</dd>
             <dt>When</dt><dd>{prettyDate(b.date)} at {prettyTime(b.start_time)}</dd>
-            <dt>Where</dt><dd>{BUSINESS.area} — exact address sent before your appointment</dd>
+            <dt>Where</dt><dd>{BUSINESS.address}<br /><span className="muted" style={{ fontSize: '.9rem' }}>Home-based studio</span></dd>
             <dt>Cost</dt><dd>Free</dd>
           </dl>
+        </div>
+        <div className="panel" style={{ marginTop: 18 }}>
+          <div className="eyebrow">Before you arrive</div>
+          <ul style={{ margin: '10px 0 0', paddingLeft: 18 }}>
+            {BUSINESS.arrivalNotes.map((n) => <li key={n} style={{ marginBottom: 6 }}>{n}</li>)}
+          </ul>
         </div>
         <p className="muted" style={{ marginTop: 22 }}>
           Your treatment needs to be at least 48 hours after your patch test. You can book it now — we’ll only show dates from then onwards.

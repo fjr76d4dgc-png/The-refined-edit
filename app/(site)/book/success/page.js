@@ -32,10 +32,16 @@ export default async function Success({ searchParams }) {
               <dl>
                 <dt>Treatment</dt><dd>{b.service_summary}</dd>
                 <dt>When</dt><dd>{prettyDate(b.date)} at {prettyTime(b.start_time)}</dd>
-                <dt>Where</dt><dd>{BUSINESS.area} — exact address sent before your appointment</dd>
+                <dt>Where</dt><dd>{BUSINESS.address}<br /><span className="muted" style={{ fontSize: '.9rem' }}>Home-based studio</span></dd>
                 <dt>Paid today</dt><dd>£{b.deposit} deposit</dd>
                 <dt>Pay on the day</dt><dd>£{b.total_price - b.deposit}{b.evening_surcharge ? ` (includes £${b.evening_surcharge} evening)` : ''}</dd>
               </dl>
+            </div>
+            <div className="panel" style={{ marginTop: 18 }}>
+              <div className="eyebrow">Before you arrive</div>
+              <ul style={{ margin: '10px 0 0', paddingLeft: 18 }}>
+                {BUSINESS.arrivalNotes.map((n) => <li key={n} style={{ marginBottom: 6 }}>{n}</li>)}
+              </ul>
             </div>
             <p className="muted" style={{ marginTop: 22, fontSize: '.9rem' }}>
               Need to change something? Please message <a href={BUSINESS.instagramUrl}>@{BUSINESS.instagram}</a> at least 48 hours before your appointment.
