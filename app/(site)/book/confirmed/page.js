@@ -31,7 +31,7 @@ export default async function Confirmed({ searchParams }) {
           <dl>
             <dt>Appointment</dt><dd>Patch test (approx. 15 mins)</dd>
             <dt>When</dt><dd>{prettyDate(b.date)} at {prettyTime(b.start_time)}</dd>
-            <dt>Where</dt><dd>{BUSINESS.address}<br /><span className="muted" style={{ fontSize: '.9rem' }}>Home-based studio</span></dd>
+            <dt>Where</dt><dd>{BUSINESS.area}<br /><span className="muted" style={{ fontSize: '.9rem' }}>Home-based studio — the full address is sent to you directly before your patch test</span></dd>
             <dt>Cost</dt><dd>Free</dd>
           </dl>
         </div>
