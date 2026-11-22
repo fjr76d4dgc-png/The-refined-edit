@@ -1,0 +1,8 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # The Stripe webhook secret is only read when the site runs, never written into pages.
+  # This stops Netlify's secret scan failing on the temporary placeholder value.
+  SECRETS_SCAN_OMIT_KEYS = "STRIPE_WEBHOOK_SECRET"
