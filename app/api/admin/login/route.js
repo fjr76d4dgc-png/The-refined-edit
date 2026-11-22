@@ -1,4 +1,4 @@
-import { checkPassword, createSession, adminPasswordIsSet, storedPasswordLength } from '@/lib/auth';
+import { checkPassword, createSession, adminPasswordIsSet } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,8 +9,7 @@ export async function POST(request) {
   }
   if (!checkPassword(password || '')) {
     await new Promise((r) => setTimeout(r, 800)); // slow down guessing
-    const typed = String(password || '').trim().length;
-    return Response.json({ error: `Wrong password. You typed ${typed} characters; the password saved on the site is ${storedPasswordLength()} characters long.` }, { status: 401 });
+    return Response.json({ error: 'Wrong password' }, { status: 401 });
   }
   createSession();
   return Response.json({ ok: true });
