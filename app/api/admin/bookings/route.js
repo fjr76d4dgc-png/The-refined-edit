@@ -1,7 +1,8 @@
 import { db } from '@/lib/supabase';
 import { isAdmin, unauthorized } from '@/lib/auth';
 import { releaseExpiredHolds } from '@/lib/bookings';
-import { priceSelection, PATCH_TEST, EVENING_SURCHARGE, EVENING_FROM } from '@/lib/config';
+import { priceSelection, PATCH_TEST, EVENING_SURCHARGE, EVENING_FROM, BUSINESS, CANCELLATION_NOTICE_HOURS } from '@/lib/config';
+import { prettyDate, prettyTime } from '@/lib/time';
 import { isValidDate, isValidTime, toMin, toHHMM } from '@/lib/time';
 
 export const dynamic = 'force-dynamic';
@@ -20,7 +21,30 @@ export async function GET(request) {
 
   const { data, error } = await q.limit(1000);
   if (error) return Response.json({ error: error.message }, { status: 500 });
-  return Response.json({ bookings: data });
+  return Response.json({ bookings: data.map((b) => ({ ...b, confirm_text: confirmText(b) })) });
+}
+
+// The WhatsApp confirmation message (includes the address — only ever sent to the logged-in owner)
+function confirmText(b) {
+  const first = String(b.client_name || '').split(' ')[0];
+  const when = `${prettyDate(b.date)} at ${prettyTime(b.start_time)}`;
+  const lines = [
+    `Hi ${first}! Your ${b.kind === 'patch_test' ? 'patch test' : 'appointment'} with ${BUSINESS.name} is confirmed ✨`,
+    '',
+    b.service_summary,
+    when,
+    '',
+    `Address: ${BUSINESS.address} (home-based studio)`,
+    '',
+    ...BUSINESS.arrivalNotes.map((n) => `• ${n}`),
+  ];
+  if (b.kind !== 'patch_test') {
+    const paid = b.deposit_status === 'paid' ? b.deposit : 0;
+    lines.push('', paid ? `Deposit paid: £${paid} · £${Math.max(b.total_price - paid, 0)} due on the day` : `Total: £${b.total_price}, paid on the day`);
+    lines.push(`Please give ${CANCELLATION_NOTICE_HOURS} hours’ notice if you need to cancel or reschedule.`);
+  }
+  lines.push('', 'See you soon 🤍');
+  return lines.join('\n');
 }
 
 // POST /api/admin/bookings  — add a booking yourself (e.g. a client who DM'd you)

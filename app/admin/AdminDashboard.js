@@ -211,6 +211,11 @@ function BookingCard({ b, busy, onStatus, onRefund }) {
             <button className="btn small ghost" disabled={busy} onClick={() => window.confirm(`Cancel ${b.client_name}'s booking? The deposit is kept.`) && onStatus(b, 'cancelled')}>Cancel (keep deposit)</button>
           </>
         )}
+        {b.status === 'confirmed' && waNumber && b.confirm_text && (
+          <a className="btn small gold" href={`https://wa.me/${waNumber}?text=${encodeURIComponent(b.confirm_text)}`} target="_blank" rel="noreferrer">
+            Send confirmation on WhatsApp
+          </a>
+        )}
         {b.deposit_status === 'paid' && b.stripe_payment_intent && (
           <button className="btn small danger" disabled={busy} onClick={() => onRefund(b)}>Refund deposit</button>
         )}
