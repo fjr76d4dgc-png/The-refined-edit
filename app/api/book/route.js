@@ -1,7 +1,7 @@
 import { db } from '@/lib/supabase';
 import { stripe, siteUrl } from '@/lib/stripe';
 import { getSlotsForDate, releaseExpiredHolds } from '@/lib/bookings';
-import { priceSelection, PATCH_TEST, DEPOSIT, EVENING_SURCHARGE, CHECKOUT_HOLD_MINUTES, BUSINESS } from '@/lib/config';
+import { priceSelection, PATCH_TEST, DEPOSIT, EVENING_SURCHARGE, CHECKOUT_HOLD_MINUTES } from '@/lib/config';
 import { isValidDate, isValidTime, prettyDate, prettyTime } from '@/lib/time';
 
 export const dynamic = 'force-dynamic';
@@ -101,7 +101,7 @@ export async function POST(request) {
             unit_amount: DEPOSIT * 100,
             product_data: {
               name: `Booking deposit — ${summary}`,
-              description: `${prettyDate(date)} at ${prettyTime(slot.time)} at ${BUSINESS.address}. Remaining £${price + surcharge - DEPOSIT} payable on the day. Please message when you arrive rather than ringing the bell.`,
+              description: `${prettyDate(date)} at ${prettyTime(slot.time)}. Remaining £${price + surcharge - DEPOSIT} payable on the day.`,
             },
           },
         },
