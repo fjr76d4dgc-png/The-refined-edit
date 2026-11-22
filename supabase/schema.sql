@@ -61,3 +61,11 @@ create index if not exists bookings_status_idx on bookings (status);
 -- Lock both tables down: only the website's server (service role key) can read/write.
 alter table availability enable row level security;
 alter table bookings enable row level security;
+
+-- Settings (e.g. your dashboard password, changed from the Settings tab).
+create table if not exists settings (
+  key text primary key,
+  value text not null,
+  updated_at timestamptz not null default now()
+);
+alter table settings enable row level security;

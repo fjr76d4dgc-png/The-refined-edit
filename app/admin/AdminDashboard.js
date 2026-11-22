@@ -49,13 +49,14 @@ export default function AdminDashboard() {
       </div>
       <div className="wrap" style={{ paddingBottom: 80 }}>
         <div className="tabs">
-          {[['bookings', 'Bookings'], ['availability', 'My availability'], ['add', '+ Add booking']].map(([id, label]) => (
+          {[['bookings', 'Bookings'], ['availability', 'My availability'], ['add', '+ Add booking'], ['settings', 'Settings']].map(([id, label]) => (
             <button key={id} className={tab === id ? 'on' : ''} onClick={() => setTab(id)}>{label}</button>
           ))}
         </div>
         {tab === 'bookings' && <Bookings />}
         {tab === 'availability' && <Availability />}
         {tab === 'add' && <AddBooking onDone={() => setTab('bookings')} />}
+        {tab === 'settings' && <Settings />}
       </div>
     </>
   );
@@ -426,6 +427,56 @@ function AddBooking({ onDone }) {
       <div className="bar">
         <span className="muted" style={{ fontSize: '.85rem' }}>Evening surcharge is added automatically from 5pm.</span>
         <button className="btn" disabled={busy || (kind === 'treatment' && !services.length)}>{busy ? 'Saving…' : 'Add booking'}</button>
+      </div>
+    </form>
+  );
+}
+
+/* ───────────────────────── Settings: change password ───────────────────────── */
+
+function Settings() {
+  const [f, setF] = useState({ current: '', next: '', again: '' });
+  const [msg, setMsg] = useState('');
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  async function submit(e) {
+    e.preventDefault();
+    setMsg('');
+    setError('');
+    if (f.next.trim().length < 6) return setError('Choose a password with at least 6 characters.');
+    if (f.next !== f.again) return setError('The two new passwords don’t match.');
+    setBusy(true);
+    try {
+      await api('/api/admin/password', { method: 'POST', body: JSON.stringify({ current: f.current, next: f.next }) });
+      setMsg('Password changed. Use your new password next time you log in.');
+      setF({ current: '', next: '', again: '' });
+    } catch (err) {
+      setError(err.message);
+    }
+    setBusy(false);
+  }
+
+  return (
+    <form className="panel" onSubmit={submit} style={{ maxWidth: 520 }}>
+      <h2>Change password</h2>
+      <p className="muted" style={{ margin: 0 }}>This is the password you use to log in to this dashboard.</p>
+      <div className="form-grid" style={{ gridTemplateColumns: '1fr' }}>
+        <label className="field">Current password
+          <input type="password" autoComplete="current-password" required value={f.current} onChange={(e) => setF({ ...f, current: e.target.value })} />
+        </label>
+        <label className="field">New password
+          <input type="password" autoComplete="new-password" required value={f.next} onChange={(e) => setF({ ...f, next: e.target.value })} />
+        </label>
+        <label className="field">New password again
+          <input type="password" autoComplete="new-password" required value={f.again} onChange={(e) => setF({ ...f, again: e.target.value })} />
+        </label>
+      </div>
+      {error && <p className="error">{error}</p>}
+      {msg && <p className="success">{msg}</p>}
+      <div className="bar">
+        <span />
+        <button className="btn" disabled={busy}>{busy ? 'Saving…' : 'Change password'}</button>
       </div>
     </form>
   );
