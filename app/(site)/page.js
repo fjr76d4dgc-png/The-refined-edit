@@ -6,7 +6,7 @@ import { DEPOSIT, EVENING_SURCHARGE } from '@/lib/config';
 const FEATURED = [
   { title: 'Korean Lash Lift', from: 'From £40', text: 'Our signature lift — soft, glossy, naturally elevated lashes with long-lasting definition.' },
   { title: 'Brow Lamination', from: '£30', text: 'Fuller, smoother, perfectly styled brows, set into the shape that suits your face.' },
-  { title: 'Halal Brows', from: 'From £25', text: 'Gentle shaping and lamination that respect your natural brows.' },
+  { title: 'Brow Wax & Tint', from: 'From £20', text: 'Precise shaping and a custom-blended tint for naturally defined brows.' },
 ];
 
 export default function Home() {
@@ -29,7 +29,7 @@ export default function Home() {
           <ul>
             <li>ABT insured &amp; accredited</li>
             <li>Korean &amp; LVL lifts</li>
-            <li>Halal brow options</li>
+            <li>Bespoke brow tints</li>
             <li>Free patch tests</li>
           </ul>
         </div>

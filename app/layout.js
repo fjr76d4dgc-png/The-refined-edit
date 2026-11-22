@@ -6,7 +6,7 @@ const sans = Jost({ subsets: ['latin'], weight: ['300', '400', '500'], variable:
 
 export const metadata = {
   title: { default: 'The Refined Edit — Lash Lifts & Brow Laminations, Birmingham', template: '%s · The Refined Edit' },
-  description: 'Korean & LVL lash lifts, brow lamination, halal brows and bespoke tints in Birmingham B19. ABT insured and accredited. Book online.',
+  description: 'Korean & LVL lash lifts, brow lamination, brow wax and bespoke tints in Birmingham B19. ABT insured and accredited. Book online.',
 };
 
 export default function RootLayout({ children }) {
