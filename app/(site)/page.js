@@ -6,7 +6,7 @@ import { DEPOSIT, EVENING_SURCHARGE } from '@/lib/config';
 const FEATURED = [
   { title: 'Korean Lash Lift', from: 'From £40', text: 'Our signature lift — soft, glossy, naturally elevated lashes with long-lasting definition.' },
   { title: 'Brow Lamination', from: '£30', text: 'Fuller, smoother, perfectly styled brows, set into the shape that suits your face.' },
-  { title: 'Halal Brows', from: 'From £25', text: 'Gentle bleaching and shaping options that respect your natural brows.' },
+  { title: 'Halal Brows', from: 'From £25', text: 'Gentle shaping and lamination that respect your natural brows.' },
 ];
 
 export default function Home() {
