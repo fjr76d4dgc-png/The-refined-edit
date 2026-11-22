@@ -1,6 +1,7 @@
 import { db } from '@/lib/supabase';
 import { stripe, siteUrl } from '@/lib/stripe';
 import { getSlotsForDate, releaseExpiredHolds } from '@/lib/bookings';
+import { sendOwnerNotification, safely } from '@/lib/email';
 import { priceSelection, PATCH_TEST, DEPOSIT, EVENING_SURCHARGE, CHECKOUT_HOLD_MINUTES } from '@/lib/config';
 import { isValidDate, isValidTime, prettyDate, prettyTime } from '@/lib/time';
 
@@ -87,7 +88,10 @@ export async function POST(request) {
     }
 
     // Free patch test: confirmed straight away, no payment.
-    if (isPatch) return Response.json({ url: `/book/confirmed?id=${booking.id}` });
+    if (isPatch) {
+      await safely(sendOwnerNotification, booking);
+      return Response.json({ url: `/book/confirmed?id=${booking.id}` });
+    }
 
     // Treatment: send the client to Stripe to pay the deposit.
     const session = await stripe().checkout.sessions.create({
